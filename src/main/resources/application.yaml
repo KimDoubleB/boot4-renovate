@@ -1,3 +1,101 @@
 spring:
   application:
-    name: labs
+    name: petclinic
+  mongodb:
+    database: petclinic
+
+external:
+  payment:
+    url: http://localhost:8081
+  notification:
+    url: http://localhost:8082
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+      notificationService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+  retry:
+    instances:
+      notificationService:
+        maxAttempts: 3
+        waitDuration: 1s
+  ratelimiter:
+    instances:
+      createEndpoints:
+        limitForPeriod: 5
+        limitRefreshPeriod: 1s
+        timeoutDuration: 500ms
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,circuitbreakers,circuitbreakerevents,retries,retryevents,ratelimiters
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  info:
+    env:
+      enabled: true
+    git:
+      mode: full
+  observations:
+    annotations:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5, 0.9, 0.95, 0.99
+  otlp:
+    metrics:
+      export:
+        enabled: true
+        url: http://localhost:4318/v1/metrics
+  tracing:
+    sampling:
+      probability: 1.0
+    export:
+      enabled: true
+      otlp:
+        enabled: true
+    propagation:
+      type: W3C
+  opentelemetry:
+    resource-attributes:
+      deployment.environment: ${spring.config.activate.on-profile}
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+
+logging:
+  pattern:
+    correlation: "[${spring.application.name:},%X{traceId:-},%X{spanId:-}] "
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) ${logging.pattern.correlation}[%thread] %cyan(%logger{36}) - %msg%n"
+  level:
+    root: INFO
+    io.opentelemetry: INFO
+    io.github.resilience4j: DEBUG
+    com.kirndoubleb.labs: DEBUG
+    com.kirndoubleb.labs.config.RequestLoggingFilter: INFO
