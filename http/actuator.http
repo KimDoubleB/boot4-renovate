@@ -1,0 +1,37 @@
+### Actuator Endpoints
+
+### Health check
+GET {{host}}/actuator/health
+
+### Liveness probe
+GET {{host}}/actuator/health/liveness
+
+### Readiness probe
+GET {{host}}/actuator/health/readiness
+
+### Application info
+GET {{host}}/actuator/info
+
+### Metrics overview
+GET {{host}}/actuator/metrics
+
+### HTTP server request metrics
+GET {{host}}/actuator/metrics/http.server.requests
+
+### JVM memory metrics
+GET {{host}}/actuator/metrics/jvm.memory.used
+
+### Prometheus metrics
+GET {{host}}/actuator/prometheus
+
+### Circuit breaker status
+GET {{host}}/actuator/circuitbreakers
+
+### Circuit breaker events
+GET {{host}}/actuator/circuitbreakerevents
+
+### Retry events
+GET {{host}}/actuator/retries
+
+### Rate limiter status
+GET {{host}}/actuator/ratelimiters

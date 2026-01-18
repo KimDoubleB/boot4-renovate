@@ -1,0 +1,51 @@
+### Pet API
+
+### Get all pets (paginated)
+GET {{host}}/api/v1/pets?page=0&size=20
+
+### Get pet by ID
+GET {{host}}/api/v1/pets/{{petId}}
+
+### Create pet (DOG)
+POST {{host}}/api/v1/pets
+Content-Type: application/json
+
+{
+  "name": "Max",
+  "species": "DOG",
+  "breed": "Golden Retriever",
+  "birthDate": "2022-03-15",
+  "ownerId": "{{ownerId}}"
+}
+
+### Create pet (CAT)
+POST {{host}}/api/v1/pets
+Content-Type: application/json
+
+{
+  "name": "Whiskers",
+  "species": "CAT",
+  "breed": "Persian",
+  "birthDate": "2021-07-20",
+  "ownerId": "{{ownerId}}"
+}
+
+### Update pet
+PUT {{host}}/api/v1/pets/{{petId}}
+Content-Type: application/json
+
+{
+  "name": "Buddy",
+  "breed": "Labrador"
+}
+
+### Delete pet
+DELETE {{host}}/api/v1/pets/{{petId}}
+
+### Get visits by pet ID
+GET {{host}}/api/v1/pets/{{petId}}/visits
+
+### Get appointments by pet ID
+GET {{host}}/api/v1/pets/{{petId}}/appointments
+
+# Species enum values: DOG, CAT, BIRD, REPTILE, FISH, HAMSTER, RABBIT, OTHER

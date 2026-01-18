@@ -1,0 +1,35 @@
+### Vet API
+
+### Get all vets (paginated)
+GET {{host}}/api/v1/vets?page=0&size=20
+
+### Get vet by ID
+GET {{host}}/api/v1/vets/{{vetId}}
+
+### Get available vets
+GET {{host}}/api/v1/vets/available
+
+### Create vet
+POST {{host}}/api/v1/vets
+Content-Type: application/json
+
+{
+  "firstName": "Emily",
+  "lastName": "Park",
+  "licenseNumber": "VET-2024-001",
+  "specialties": ["Surgery", "Internal Medicine"]
+}
+
+### Update vet
+PUT {{host}}/api/v1/vets/{{vetId}}
+Content-Type: application/json
+
+{
+  "firstName": "Emily",
+  "lastName": "Kim",
+  "specialties": ["Surgery", "Internal Medicine", "Dermatology"],
+  "available": true
+}
+
+### Delete vet
+DELETE {{host}}/api/v1/vets/{{vetId}}

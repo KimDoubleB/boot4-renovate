@@ -1,0 +1,39 @@
+### Visit API
+
+### Get all visits (paginated)
+GET {{host}}/api/v1/visits?page=0&size=20
+
+### Get visit by ID
+GET {{host}}/api/v1/visits/{{visitId}}
+
+### Create visit
+POST {{host}}/api/v1/visits
+Content-Type: application/json
+
+{
+  "petId": "{{petId}}",
+  "vetId": "{{vetId}}",
+  "diagnosis": "Routine checkup",
+  "treatment": "Vaccination",
+  "notes": "Pet is healthy",
+  "cost": 50000
+}
+
+### Update visit
+PUT {{host}}/api/v1/visits/{{visitId}}
+Content-Type: application/json
+
+{
+  "diagnosis": "Minor skin infection",
+  "treatment": "Antibiotics prescribed",
+  "notes": "Follow-up in 2 weeks",
+  "cost": 75000
+}
+
+### Process payment for visit
+POST {{host}}/api/v1/visits/{{visitId}}/payment
+Content-Type: application/json
+
+{
+  "amount": 50000
+}

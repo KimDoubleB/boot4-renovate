@@ -1,0 +1,45 @@
+### Appointment API
+
+### Get all appointments (paginated)
+GET {{host}}/api/v1/appointments?page=0&size=20
+
+### Get appointment by ID
+GET {{host}}/api/v1/appointments/{{appointmentId}}
+
+### Create appointment
+POST {{host}}/api/v1/appointments
+Content-Type: application/json
+
+{
+  "petId": "{{petId}}",
+  "vetId": "{{vetId}}",
+  "scheduledAt": "2025-02-01T10:00:00Z",
+  "reason": "Annual checkup"
+}
+
+### Update appointment
+PUT {{host}}/api/v1/appointments/{{appointmentId}}
+Content-Type: application/json
+
+{
+  "scheduledAt": "2025-02-05T14:00:00Z",
+  "reason": "Rescheduled - vaccination"
+}
+
+### Confirm appointment
+POST {{host}}/api/v1/appointments/{{appointmentId}}/confirm
+
+### Cancel appointment
+POST {{host}}/api/v1/appointments/{{appointmentId}}/cancel
+
+### Complete appointment (creates visit)
+POST {{host}}/api/v1/appointments/{{appointmentId}}/complete
+Content-Type: application/json
+
+{
+  "diagnosis": "Healthy, no issues found",
+  "treatment": "Routine vaccination administered"
+}
+
+### Send reminder notification
+POST {{host}}/api/v1/appointments/{{appointmentId}}/notify
