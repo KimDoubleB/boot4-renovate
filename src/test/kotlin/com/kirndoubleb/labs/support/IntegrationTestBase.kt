@@ -1,17 +1,13 @@
-package com.kirndoubleb.labs
+package com.kirndoubleb.labs.support
 
 import com.kirndoubleb.labs.config.TestContainersConfig
-import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 @Import(TestContainersConfig::class)
 @ActiveProfiles("test")
-class LabsApplicationTests {
-
-    @Test
-    fun contextLoads() {
-    }
-}
+abstract class IntegrationTestBase

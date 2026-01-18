@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: petclinic-test
+
+external:
+  payment:
+    url: http://localhost:${wiremock.payment.port:8081}
+  notification:
+    url: http://localhost:${wiremock.notification.port:8082}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 2
+      notificationService:
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 3s
+        permittedNumberOfCallsInHalfOpenState: 2
+  retry:
+    instances:
+      notificationService:
+        maxAttempts: 2
+        waitDuration: 100ms
+  ratelimiter:
+    instances:
+      createEndpoints:
+        limitForPeriod: 100
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0ms
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    enabled: false
+
+logging:
+  level:
+    root: WARN
+    com.kirndoubleb.labs: DEBUG
+    org.testcontainers: INFO
