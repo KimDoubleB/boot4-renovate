@@ -3,6 +3,9 @@ spring:
     name: petclinic
   mongodb:
     database: petclinic
+  threads:
+    virtual:
+      enabled: true
 
 external:
   payment:
