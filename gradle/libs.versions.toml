@@ -26,6 +26,7 @@ spring-boot-starter-data-mongodb-test = { module = "org.springframework.boot:spr
 spring-boot-starter-mongodb-test = { module = "org.springframework.boot:spring-boot-starter-mongodb-test" }
 spring-boot-starter-opentelemetry-test = { module = "org.springframework.boot:spring-boot-starter-opentelemetry-test" }
 spring-boot-starter-webmvc-test = { module = "org.springframework.boot:spring-boot-starter-webmvc-test" }
+spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
 
 # Sentry
 sentry-bom = { module = "io.sentry:sentry-bom", version.ref = "sentry" }
@@ -72,6 +73,7 @@ spring-boot-test = [
     "spring-boot-starter-mongodb-test",
     "spring-boot-starter-opentelemetry-test",
     "spring-boot-starter-webmvc-test",
+    "spring-boot-testcontainers",
     "kotlin-test-junit5"
 ]
 kotest = [

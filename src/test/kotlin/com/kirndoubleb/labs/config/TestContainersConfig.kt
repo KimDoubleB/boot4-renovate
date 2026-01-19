@@ -1,25 +1,16 @@
 package com.kirndoubleb.labs.config
 
 import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
 import org.springframework.context.annotation.Bean
-import org.springframework.test.context.DynamicPropertyRegistrar
-import org.testcontainers.containers.MongoDBContainer
-import org.testcontainers.utility.DockerImageName
+import org.testcontainers.mongodb.MongoDBContainer
 
 @TestConfiguration(proxyBeanMethods = false)
 class TestContainersConfig {
 
     @Bean
+    @ServiceConnection
     fun mongoDBContainer(): MongoDBContainer {
-        return MongoDBContainer(DockerImageName.parse("mongo:7.0")).apply {
-            start()
-        }
-    }
-
-    @Bean
-    fun mongoDbProperties(mongoDBContainer: MongoDBContainer): DynamicPropertyRegistrar {
-        return DynamicPropertyRegistrar { registry ->
-            registry.add("spring.data.mongodb.uri") { mongoDBContainer.replicaSetUrl }
-        }
+        return MongoDBContainer("mongo:7.0")
     }
 }
