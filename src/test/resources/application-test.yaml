@@ -1,6 +1,9 @@
 spring:
   application:
     name: petclinic-test
+  docker:
+    compose:
+      enabled: false
 
 external:
   payment:
@@ -33,16 +36,50 @@ resilience4j:
         limitRefreshPeriod: 1s
         timeoutDuration: 0ms
 
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,prometheus
   endpoint:
     health:
       show-details: always
+      show-components: always
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  info:
+    env:
+      enabled: true
+    git:
+      mode: full
+  observations:
+    annotations:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  otlp:
+    metrics:
+      export:
+        enabled: false
   tracing:
-    enabled: false
+    sampling:
+      probability: 1.0
+    export:
+      enabled: false
+      otlp:
+        enabled: false
+    propagation:
+      type: W3C
+  opentelemetry:
+    resource-attributes:
+      deployment.environment: ${spring.config.activate.on-profile}
 
 logging:
   level:
