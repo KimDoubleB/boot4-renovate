@@ -1,0 +1,36 @@
+name: Renovate
+
+on:
+  schedule:
+    # 1분마다 실행 (테스트/데모 목적). 실제 운영은 '0 * * * *' (매시 정각) 권장.
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # 수동 실행 버튼 지원
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+
+    # GHES (Enterprise) 환경 변수 설정
+    env:
+      #      # 사내 GitHub 도메인 (없으면 주석 처리하여 기본 github.com 사용)
+      #      RENOVATE_ENDPOINT: "https://ghe.company.com/api/v3/"
+      #      RENOVATE_PLATFORM: "github"
+      # Gradle 데몬 등의 캐시를 위해 설정 권장
+      LOG_LEVEL: "info"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v44.2.2
+        with:
+          # renovate.json 파일 경로 (기본값이라 생략 가능하지만 명시함)
+          configurationFile: .github/workflows/config/renovate.json
+
+          # GitHub Secrets에 등록된 PAT (Repo, Workflow 권한 필수)
+          token: ${{ secrets.RENOVATE_TOKEN }}
+
+          # Docker-in-Docker 활성화 (필요시) - Gradle Wrapper 실행 등 사이드이펙트 방지
+          docker-volumes: |
+            /tmp/renovate-cache:/tmp/renovate
