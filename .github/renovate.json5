@@ -7,8 +7,10 @@
     ":prHourlyLimit2"
   ],
   // --- [Onboarding 비활성화 (self-hosted 환경)] ---
-  "onboarding": false,
-  "requireConfig": "required",
+  // self hosted 옵션인데, 어차피 default 옵션 사용하도록 설정해둬서 반영 안됨
+  // 문서 잘 읽어보면 default 옵션으로도 .github 아래 디렉토리에서 repository configuration 적용 가능
+  // "onboarding": false,
+  // "requireConfig": "required",
   // --- [Core Strategy: Dashboard First] ---
   // 기본적으로 모든 업데이트는 대시보드에 리스트업만 되고, 체크박스를 눌러 승인해야 PR이 생성됩니다.
   "dependencyDashboardApproval": true,
