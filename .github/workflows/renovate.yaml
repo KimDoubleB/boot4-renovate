@@ -30,9 +30,6 @@ jobs:
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@66387ab8c2464d575b933fa44e9e5a86b2822809 # v44.2.4
         with:
-          # renovate.json5 파일 경로 (JSON5는 주석 지원)
-          configurationFile: .github/workflows/config/renovate.json5
-
           # GitHub Secrets에 등록된 PAT (Repo, Workflow 권한 필수)
           token: ${{ secrets.RENOVATE_TOKEN }}
         env:

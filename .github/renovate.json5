@@ -2,12 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices",
+    "mergeConfidence:all-badges",
     ":timezone(Asia/Seoul)",
     ":prHourlyLimit2"
   ],
   // --- [Onboarding 비활성화 (self-hosted 환경)] ---
   "onboarding": false,
-  "requireConfig": "ignored",
+  "requireConfig": "required",
   // --- [Core Strategy: Dashboard First] ---
   // 기본적으로 모든 업데이트는 대시보드에 리스트업만 되고, 체크박스를 눌러 승인해야 PR이 생성됩니다.
   "dependencyDashboardApproval": true,
