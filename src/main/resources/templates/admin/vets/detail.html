@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/base :: html(~{::head/link}, ~{::main})}">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<main>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="detail-container mb-4">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <h5 class="mb-0">수의사 정보</h5>
+                    <div>
+                        <a th:href="@{/admin/vets/{id}/edit(id=${vet.id})}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil me-1"></i>수정
+                        </a>
+                        <form th:action="@{/admin/vets/{id}/delete(id=${vet.id})}"
+                              method="post" class="d-inline"
+                              onsubmit="return confirm('정말 삭제하시겠습니까?')">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash me-1"></i>삭제
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">이름</div>
+                        <div class="detail-value" th:text="${vet.lastName + ' ' + vet.firstName}">김수의</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">면허 번호</div>
+                        <div class="detail-value" th:text="${vet.licenseNumber}">12345</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">전문 분야</div>
+                        <div class="detail-value">
+                            <span th:if="${vet.specialties.empty}" class="text-muted">-</span>
+                            <span th:each="specialty : ${vet.specialties}">
+                                <span class="badge bg-secondary" th:text="${specialty}">내과</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">상태</div>
+                        <div class="detail-value">
+                            <span class="badge" th:classappend="${vet.available} ? 'bg-success' : 'bg-secondary'"
+                                  th:text="${vet.available} ? '진료 가능' : '진료 불가'">진료 가능</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">등록일</div>
+                        <div class="detail-value" th:text="${#temporals.format(vet.createdAt, 'yyyy-MM-dd HH:mm')}">2024-01-01</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">수정일</div>
+                        <div class="detail-value" th:text="${#temporals.format(vet.updatedAt, 'yyyy-MM-dd HH:mm')}">2024-01-01</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">빠른 작업</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a th:href="@{/admin/appointments/new(vetId=${vet.id})}" class="btn btn-outline-warning">
+                            <i class="bi bi-calendar-plus me-2"></i>예약 배정
+                        </a>
+                        <a th:href="@{/admin/vets}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>목록으로
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

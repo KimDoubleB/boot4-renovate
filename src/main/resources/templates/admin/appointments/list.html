@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/base :: html(~{::head/link}, ~{::main})}">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<main>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0">예약 목록</h5>
+        <a th:href="@{/admin/appointments/new}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>새 예약 등록
+        </a>
+    </div>
+
+    <div class="table-container">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>예약 일시</th>
+                    <th>반려동물</th>
+                    <th>담당 수의사</th>
+                    <th>사유</th>
+                    <th>상태</th>
+                    <th>알림</th>
+                    <th class="text-center" style="width: 80px;">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${appointments.empty}">
+                    <td colspan="7" class="text-center text-muted py-4">
+                        등록된 예약이 없습니다.
+                    </td>
+                </tr>
+                <tr th:each="appointment : ${appointments}">
+                    <td th:text="${#temporals.format(appointment.scheduledAt, 'yyyy-MM-dd HH:mm')}">2024-01-01 10:00</td>
+                    <td th:text="${appointment.petId}">멍멍이</td>
+                    <td th:text="${appointment.vetId}">김수의</td>
+                    <td th:text="${appointment.reason != null ? #strings.abbreviate(appointment.reason, 30) : '-'}">정기 검진</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${appointment.status.name() == 'SCHEDULED'} ? 'bg-warning text-dark' :
+                                              (${appointment.status.name() == 'CONFIRMED'} ? 'bg-primary' :
+                                              (${appointment.status.name() == 'COMPLETED'} ? 'bg-success' :
+                                              (${appointment.status.name() == 'CANCELLED'} ? 'bg-secondary' : 'bg-danger')))"
+                              th:text="${appointment.status.name()}">SCHEDULED</span>
+                    </td>
+                    <td>
+                        <i th:if="${appointment.reminderSent}" class="bi bi-check-circle text-success" title="알림 발송됨"></i>
+                        <i th:if="${!appointment.reminderSent}" class="bi bi-dash text-muted" title="알림 미발송"></i>
+                    </td>
+                    <td class="text-center">
+                        <a th:href="@{/admin/appointments/{id}(id=${appointment.id})}"
+                           class="btn btn-sm btn-outline-secondary btn-action"
+                           title="상세">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="~{admin/layout/fragments/pagination :: pagination(${appointments}, '/admin/appointments')}"></div>
+    </div>
+</main>
+</body>
+</html>

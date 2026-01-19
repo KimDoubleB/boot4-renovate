@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header" class="content-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <h4 class="mb-0" th:text="${pageTitle ?: '대시보드'}">대시보드</h4>
+        <nav aria-label="breadcrumb" th:if="${breadcrumbs}">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/admin}">
+                        <i class="bi bi-house-door"></i>
+                    </a>
+                </li>
+                <li th:each="crumb : ${breadcrumbs}"
+                    class="breadcrumb-item"
+                    th:classappend="${crumb.active} ? 'active'"
+                    th:attr="aria-current=${crumb.active} ? 'page'">
+                    <a th:if="${!crumb.active}" th:href="${crumb.url}" th:text="${crumb.label}"></a>
+                    <span th:if="${crumb.active}" th:text="${crumb.label}"></span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</header>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/base :: html(~{::head/link}, ~{::main})}">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<main>
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-value" th:text="${stats.totalOwners}">0</div>
+                            <div class="stat-label">보호자</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <a th:href="@{/admin/owners}" class="text-white text-decoration-none small">
+                        자세히 보기 <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-value" th:text="${stats.totalPets}">0</div>
+                            <div class="stat-label">반려동물</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="bi bi-github"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <a th:href="@{/admin/pets}" class="text-white text-decoration-none small">
+                        자세히 보기 <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-value" th:text="${stats.totalVets}">0</div>
+                            <div class="stat-label">수의사</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <a th:href="@{/admin/vets}" class="text-white text-decoration-none small">
+                        자세히 보기 <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card bg-warning text-dark">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-value" th:text="${stats.pendingAppointments}">0</div>
+                            <div class="stat-label">대기 중인 예약</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <a th:href="@{/admin/appointments}" class="text-dark text-decoration-none small">
+                        자세히 보기 <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-clipboard2-pulse me-2"></i>진료 통계
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>총 진료 기록</span>
+                        <span class="badge bg-secondary" th:text="${stats.totalVisits}">0</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>총 예약</span>
+                        <span class="badge bg-secondary" th:text="${stats.totalAppointments}">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-person-badge me-2"></i>수의사 현황
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>전체 수의사</span>
+                        <span class="badge bg-secondary" th:text="${stats.totalVets}">0</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>진료 가능</span>
+                        <span class="badge bg-success" th:text="${stats.availableVets}">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-lightning me-2"></i>빠른 작업
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <a th:href="@{/admin/owners/new}" class="btn btn-outline-primary w-100">
+                                <i class="bi bi-person-plus me-2"></i>새 보호자 등록
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a th:href="@{/admin/pets/new}" class="btn btn-outline-success w-100">
+                                <i class="bi bi-plus-circle me-2"></i>새 반려동물 등록
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a th:href="@{/admin/appointments/new}" class="btn btn-outline-warning w-100">
+                                <i class="bi bi-calendar-plus me-2"></i>새 예약 등록
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

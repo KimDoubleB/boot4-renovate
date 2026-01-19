@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/base :: html(~{::head/link}, ~{::main})}">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<main>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="detail-container mb-4">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <h5 class="mb-0">예약 상세</h5>
+                    <div>
+                        <a th:href="@{/admin/appointments/{id}/edit(id=${appointment.id})}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil me-1"></i>수정
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">예약 일시</div>
+                        <div class="detail-value" th:text="${#temporals.format(appointment.scheduledAt, 'yyyy-MM-dd HH:mm')}">2024-01-01 10:00</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">상태</div>
+                        <div class="detail-value">
+                            <span class="badge"
+                                  th:classappend="${appointment.status.name() == 'SCHEDULED'} ? 'bg-warning text-dark' :
+                                                  (${appointment.status.name() == 'CONFIRMED'} ? 'bg-primary' :
+                                                  (${appointment.status.name() == 'COMPLETED'} ? 'bg-success' :
+                                                  (${appointment.status.name() == 'CANCELLED'} ? 'bg-secondary' : 'bg-danger')))"
+                                  th:text="${appointment.status.name()}">SCHEDULED</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">반려동물</div>
+                        <div class="detail-value">
+                            <a th:href="@{/admin/pets/{id}(id=${pet.id})}" class="text-decoration-none"
+                               th:text="${pet.name + ' (' + pet.species.name() + ')'}">멍멍이 (DOG)</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">담당 수의사</div>
+                        <div class="detail-value">
+                            <a th:href="@{/admin/vets/{id}(id=${vet.id})}" class="text-decoration-none"
+                               th:text="${vet.lastName + ' ' + vet.firstName}">김수의</a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="detail-label">예약 사유</div>
+                        <div class="detail-value" th:text="${appointment.reason ?: '-'}">정기 검진</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">알림 발송</div>
+                        <div class="detail-value">
+                            <span th:if="${appointment.reminderSent}" class="text-success">
+                                <i class="bi bi-check-circle me-1"></i>발송됨
+                            </span>
+                            <span th:if="${!appointment.reminderSent}" class="text-muted">
+                                <i class="bi bi-dash-circle me-1"></i>미발송
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">등록일</div>
+                        <div class="detail-value" th:text="${#temporals.format(appointment.createdAt, 'yyyy-MM-dd HH:mm')}">2024-01-01</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6 class="mb-0">예약 관리</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <form th:if="${appointment.status.name() == 'SCHEDULED'}"
+                              th:action="@{/admin/appointments/{id}/confirm(id=${appointment.id})}"
+                              method="post">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-check-circle me-2"></i>예약 확정
+                            </button>
+                        </form>
+                        <form th:if="${appointment.status.name() == 'SCHEDULED' || appointment.status.name() == 'CONFIRMED'}"
+                              th:action="@{/admin/appointments/{id}/cancel(id=${appointment.id})}"
+                              method="post"
+                              onsubmit="return confirm('정말 취소하시겠습니까?')">
+                            <button type="submit" class="btn btn-outline-danger w-100">
+                                <i class="bi bi-x-circle me-2"></i>예약 취소
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">빠른 작업</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a th:href="@{/admin/pets/{id}(id=${pet.id})}" class="btn btn-outline-secondary">
+                            <i class="bi bi-github me-2"></i>반려동물 정보
+                        </a>
+                        <a th:href="@{/admin/vets/{id}(id=${vet.id})}" class="btn btn-outline-secondary">
+                            <i class="bi bi-person-badge me-2"></i>수의사 정보
+                        </a>
+                        <a th:href="@{/admin/appointments}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>목록으로
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

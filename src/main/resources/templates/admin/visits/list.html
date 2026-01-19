@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/base :: html(~{::head/link}, ~{::main})}">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<main>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0">진료 기록</h5>
+        <a th:href="@{/admin/visits/new}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>새 진료 기록
+        </a>
+    </div>
+
+    <div class="table-container">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>진료일</th>
+                    <th>반려동물</th>
+                    <th>담당 수의사</th>
+                    <th>진단</th>
+                    <th>비용</th>
+                    <th>결제 상태</th>
+                    <th class="text-center" style="width: 80px;">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${visits.empty}">
+                    <td colspan="7" class="text-center text-muted py-4">
+                        등록된 진료 기록이 없습니다.
+                    </td>
+                </tr>
+                <tr th:each="visit : ${visits}">
+                    <td th:text="${#temporals.format(visit.visitDate, 'yyyy-MM-dd HH:mm')}">2024-01-01 10:00</td>
+                    <td th:text="${visit.petId}">멍멍이</td>
+                    <td th:text="${visit.vetId}">김수의</td>
+                    <td th:text="${visit.diagnosis != null ? #strings.abbreviate(visit.diagnosis, 30) : '-'}">감기</td>
+                    <td th:text="${#numbers.formatDecimal(visit.cost, 0, 'COMMA', 0, 'POINT') + '원'}">50,000원</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${visit.paymentStatus.name() == 'COMPLETED'} ? 'bg-success' :
+                                              (${visit.paymentStatus.name() == 'PENDING'} ? 'bg-warning text-dark' :
+                                              (${visit.paymentStatus.name() == 'FAILED'} ? 'bg-danger' : 'bg-secondary'))"
+                              th:text="${visit.paymentStatus.name()}">PENDING</span>
+                    </td>
+                    <td class="text-center">
+                        <a th:href="@{/admin/visits/{id}(id=${visit.id})}"
+                           class="btn btn-sm btn-outline-secondary btn-action"
+                           title="상세">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="~{admin/layout/fragments/pagination :: pagination(${visits}, '/admin/visits')}"></div>
+    </div>
+</main>
+</body>
+</html>

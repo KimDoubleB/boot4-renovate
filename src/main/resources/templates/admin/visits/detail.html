@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/base :: html(~{::head/link}, ~{::main})}">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<main>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="detail-container mb-4">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <h5 class="mb-0">진료 기록 상세</h5>
+                    <div>
+                        <a th:href="@{/admin/visits/{id}/edit(id=${visit.id})}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil me-1"></i>수정
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-label">진료일</div>
+                        <div class="detail-value" th:text="${#temporals.format(visit.visitDate, 'yyyy-MM-dd HH:mm')}">2024-01-01 10:00</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">반려동물</div>
+                        <div class="detail-value">
+                            <a th:href="@{/admin/pets/{id}(id=${pet.id})}" class="text-decoration-none"
+                               th:text="${pet.name + ' (' + pet.species.name() + ')'}">멍멍이 (DOG)</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">담당 수의사</div>
+                        <div class="detail-value">
+                            <a th:href="@{/admin/vets/{id}(id=${vet.id})}" class="text-decoration-none"
+                               th:text="${vet.lastName + ' ' + vet.firstName}">김수의</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">결제 상태</div>
+                        <div class="detail-value">
+                            <span class="badge"
+                                  th:classappend="${visit.paymentStatus.name() == 'COMPLETED'} ? 'bg-success' :
+                                                  (${visit.paymentStatus.name() == 'PENDING'} ? 'bg-warning text-dark' :
+                                                  (${visit.paymentStatus.name() == 'FAILED'} ? 'bg-danger' : 'bg-secondary'))"
+                                  th:text="${visit.paymentStatus.name()}">PENDING</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="detail-label">진단</div>
+                        <div class="detail-value" th:text="${visit.diagnosis ?: '-'}">감기</div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="detail-label">치료 내용</div>
+                        <div class="detail-value" th:text="${visit.treatment ?: '-'}">약 처방</div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="detail-label">메모</div>
+                        <div class="detail-value" th:text="${visit.notes ?: '-'}">특이사항 없음</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-label">비용</div>
+                        <div class="detail-value" th:text="${#numbers.formatDecimal(visit.cost, 0, 'COMMA', 0, 'POINT') + '원'}">50,000원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">빠른 작업</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a th:href="@{/admin/pets/{id}(id=${pet.id})}" class="btn btn-outline-secondary">
+                            <i class="bi bi-github me-2"></i>반려동물 정보
+                        </a>
+                        <a th:href="@{/admin/visits}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>목록으로
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

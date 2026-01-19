@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/base :: html(~{::head/link}, ~{::main})}">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<main>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-container">
+                <h5 class="mb-4" th:text="${isNew} ? '새 반려동물 등록' : '반려동물 정보 수정'">반려동물 등록</h5>
+
+                <form th:action="${isNew} ? @{/admin/pets} : @{/admin/pets/{id}(id=${petId})}"
+                      method="post" th:object="${petForm}">
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">이름 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name"
+                               th:field="*{name}"
+                               th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+                             th:errors="*{name}">이름을 입력해주세요</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="species" class="form-label">종류 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="species"
+                                    th:field="*{species}"
+                                    th:classappend="${#fields.hasErrors('species')} ? 'is-invalid'">
+                                <option value="">선택하세요</option>
+                                <option th:each="s : ${species}" th:value="${s}" th:text="${s.name()}">DOG</option>
+                            </select>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('species')}"
+                                 th:errors="*{species}">종류를 선택해주세요</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="breed" class="form-label">품종</label>
+                            <input type="text" class="form-control" id="breed"
+                                   th:field="*{breed}" placeholder="예: 골든리트리버">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="birthDate" class="form-label">생년월일</label>
+                        <input type="date" class="form-control" id="birthDate"
+                               th:field="*{birthDate}">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="ownerId" class="form-label">보호자 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="ownerId"
+                                th:field="*{ownerId}"
+                                th:classappend="${#fields.hasErrors('ownerId')} ? 'is-invalid'">
+                            <option value="">선택하세요</option>
+                            <option th:each="owner : ${owners}"
+                                    th:value="${owner.id}"
+                                    th:text="${owner.lastName + ' ' + owner.firstName + ' (' + owner.email + ')'}">
+                                홍길동
+                            </option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('ownerId')}"
+                             th:errors="*{ownerId}">보호자를 선택해주세요</div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a th:href="${isNew} ? @{/admin/pets} : @{/admin/pets/{id}(id=${petId})}"
+                           class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>취소
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>
+                            <span th:text="${isNew} ? '등록' : '저장'">저장</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

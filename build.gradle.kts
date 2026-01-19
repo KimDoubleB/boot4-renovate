@@ -30,6 +30,8 @@ dependencies {
     implementation(libs.bundles.spring.boot.mongodb)
     implementation(libs.bundles.spring.boot.observability)
     implementation(libs.spring.boot.starter.webmvc)
+    implementation(libs.spring.boot.starter.thymeleaf)
+    implementation(libs.spring.boot.starter.validation)
     implementation(libs.sentry.spring.boot.starter)
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.resilience4j)

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/base :: html(~{::head/link}, ~{::main})}">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<main>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-container">
+                <h5 class="mb-4" th:text="${isNew} ? '새 예약 등록' : '예약 정보 수정'">예약 등록</h5>
+
+                <form th:action="${isNew} ? @{/admin/appointments} : @{/admin/appointments/{id}(id=${appointmentId})}"
+                      method="post" th:object="${appointmentForm}">
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="petId" class="form-label">반려동물 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="petId"
+                                    th:field="*{petId}"
+                                    th:classappend="${#fields.hasErrors('petId')} ? 'is-invalid'">
+                                <option value="">선택하세요</option>
+                                <option th:each="pet : ${pets}"
+                                        th:value="${pet.id}"
+                                        th:text="${pet.name + ' (' + pet.species.name() + ')'}">
+                                    멍멍이
+                                </option>
+                            </select>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('petId')}"
+                                 th:errors="*{petId}">반려동물을 선택해주세요</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="vetId" class="form-label">담당 수의사 <span class="text-danger">*</span></label>
+                            <select class="form-select" id="vetId"
+                                    th:field="*{vetId}"
+                                    th:classappend="${#fields.hasErrors('vetId')} ? 'is-invalid'">
+                                <option value="">선택하세요</option>
+                                <option th:each="vet : ${vets}"
+                                        th:value="${vet.id}"
+                                        th:text="${vet.lastName + ' ' + vet.firstName}">
+                                    김수의
+                                </option>
+                            </select>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('vetId')}"
+                                 th:errors="*{vetId}">수의사를 선택해주세요</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="scheduledDateTime" class="form-label">예약 일시 <span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control" id="scheduledDateTime"
+                                   th:field="*{scheduledDateTime}"
+                                   th:classappend="${#fields.hasErrors('scheduledDateTime')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('scheduledDateTime')}"
+                                 th:errors="*{scheduledDateTime}">예약 일시를 입력해주세요</div>
+                        </div>
+                        <div class="col-md-6" th:if="${!isNew}">
+                            <label for="status" class="form-label">상태</label>
+                            <select class="form-select" id="status"
+                                    th:field="*{status}">
+                                <option th:each="s : ${statuses}"
+                                        th:value="${s}"
+                                        th:text="${s.name()}">SCHEDULED</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="reason" class="form-label">예약 사유</label>
+                        <textarea class="form-control" id="reason" rows="3"
+                                  th:field="*{reason}"
+                                  placeholder="예: 정기 검진, 예방 접종, 건강 상담 등"></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a th:href="${isNew} ? @{/admin/appointments} : @{/admin/appointments/{id}(id=${appointmentId})}"
+                           class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>취소
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>
+                            <span th:text="${isNew} ? '등록' : '저장'">저장</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

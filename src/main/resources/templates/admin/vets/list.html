@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/base :: html(~{::head/link}, ~{::main})}">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<main>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0">수의사 목록</h5>
+        <a th:href="@{/admin/vets/new}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>새 수의사 등록
+        </a>
+    </div>
+
+    <div class="table-container">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>면허 번호</th>
+                    <th>전문 분야</th>
+                    <th>상태</th>
+                    <th>등록일</th>
+                    <th class="text-center" style="width: 120px;">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${vets.empty}">
+                    <td colspan="6" class="text-center text-muted py-4">
+                        등록된 수의사가 없습니다.
+                    </td>
+                </tr>
+                <tr th:each="vet : ${vets}">
+                    <td>
+                        <a th:href="@{/admin/vets/{id}(id=${vet.id})}" class="text-decoration-none"
+                           th:text="${vet.lastName + ' ' + vet.firstName}">김수의</a>
+                    </td>
+                    <td th:text="${vet.licenseNumber}">12345</td>
+                    <td>
+                        <span th:if="${vet.specialties.empty}" class="text-muted">-</span>
+                        <span th:each="specialty, stat : ${vet.specialties}">
+                            <span class="badge bg-secondary" th:text="${specialty}">내과</span>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge" th:classappend="${vet.available} ? 'bg-success' : 'bg-secondary'"
+                              th:text="${vet.available} ? '진료 가능' : '진료 불가'">진료 가능</span>
+                    </td>
+                    <td th:text="${#temporals.format(vet.createdAt, 'yyyy-MM-dd')}">2024-01-01</td>
+                    <td class="text-center">
+                        <a th:href="@{/admin/vets/{id}/edit(id=${vet.id})}"
+                           class="btn btn-sm btn-outline-secondary btn-action me-1"
+                           title="수정">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <form th:action="@{/admin/vets/{id}/delete(id=${vet.id})}"
+                              method="post" class="d-inline"
+                              onsubmit="return confirm('정말 삭제하시겠습니까?')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger btn-action" title="삭제">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="~{admin/layout/fragments/pagination :: pagination(${vets}, '/admin/vets')}"></div>
+    </div>
+</main>
+</body>
+</html>

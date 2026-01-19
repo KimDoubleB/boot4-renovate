@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <h4><i class="bi bi-hospital"></i> Pet Clinic</h4>
+    </div>
+    <ul class="nav flex-column mt-3">
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activeMenu == 'dashboard'} ? 'active'" th:href="@{/admin}">
+                <i class="bi bi-speedometer2"></i> 대시보드
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activeMenu == 'owners'} ? 'active'" th:href="@{/admin/owners}">
+                <i class="bi bi-people"></i> 보호자 관리
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activeMenu == 'pets'} ? 'active'" th:href="@{/admin/pets}">
+                <i class="bi bi-github"></i> 반려동물 관리
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activeMenu == 'vets'} ? 'active'" th:href="@{/admin/vets}">
+                <i class="bi bi-person-badge"></i> 수의사 관리
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activeMenu == 'visits'} ? 'active'" th:href="@{/admin/visits}">
+                <i class="bi bi-clipboard2-pulse"></i> 진료 기록
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activeMenu == 'appointments'} ? 'active'" th:href="@{/admin/appointments}">
+                <i class="bi bi-calendar-check"></i> 예약 관리
+            </a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>
