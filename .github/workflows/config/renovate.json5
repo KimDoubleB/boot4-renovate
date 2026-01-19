@@ -1,0 +1,92 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices",
+    ":timezone(Asia/Seoul)",
+    ":dependencyDashboard",
+    ":prHourlyLimit2"
+  ],
+
+  // --- [Core Strategy: Dashboard First] ---
+  // 기본적으로 모든 업데이트는 대시보드에 리스트업만 되고, 체크박스를 눌러 승인해야 PR이 생성됩니다.
+  "dependencyDashboardApproval": true,
+  "labels": ["dependencies", "renovate"],
+
+  // --- [Gradle Version Catalog] ---
+  "gradle": {
+    "managerFilePatterns": ["/(^|/)gradle/libs\\.versions\\.toml$/"]
+  },
+
+  // --- [Package Rules] ---
+  "packageRules": [
+    {
+      // Spring Boot 에코시스템 그룹화 (버전 파편화 방지)
+      "matchPackageNames": [
+        "/org.springframework.boot/",
+        "/org.springframework.cloud/"
+      ],
+      "groupName": "Spring Boot Dependencies"
+    },
+    {
+      // Kotlin 관련 라이브러리 그룹화
+      "matchPackageNames": [
+        "/org.jetbrains.kotlin/",
+        "/org.jetbrains.kotlinx/"
+      ],
+      "groupName": "Kotlin Dependencies"
+    },
+    {
+      // Resilience4j 그룹화
+      "matchPackageNames": ["/io.github.resilience4j/"],
+      "groupName": "Resilience4j"
+    },
+    {
+      // Kotest 그룹화
+      "matchPackageNames": ["/io.kotest/"],
+      "groupName": "Kotest"
+    },
+    {
+      // Testcontainers 그룹화
+      "matchPackageNames": ["/org.testcontainers/"],
+      "groupName": "Testcontainers"
+    },
+    {
+      // Sentry 그룹화
+      "matchPackageNames": ["/io.sentry/"],
+      "groupName": "Sentry"
+    },
+    {
+      // Jackson 그룹화
+      "matchPackageNames": ["/tools.jackson/", "/com.fasterxml.jackson/"],
+      "groupName": "Jackson"
+    },
+    {
+      // Micrometer 그룹화
+      "matchPackageNames": ["/io.micrometer/"],
+      "groupName": "Micrometer"
+    },
+    {
+      // 테스트 의존성은 승인 없이 PR 생성
+      "matchDepTypes": ["testImplementation", "testRuntimeOnly"],
+      "dependencyDashboardApproval": false,
+      "labels": ["dependencies", "renovate", "test"]
+    },
+    {
+      // 패치 업데이트는 승인 없이 바로 PR 생성 후 자동 머지
+      "matchUpdateTypes": ["patch"],
+      "dependencyDashboardApproval": false,
+      "automerge": true
+    },
+    {
+      // Major 업데이트는 별도 라벨 추가 및 승인 필수
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "renovate", "breaking"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      // Gradle Wrapper는 중요하므로 별도 표시
+      "matchPackageNames": ["gradle"],
+      "groupName": "Gradle Wrapper"
+    }
+  ]
+}
