@@ -11,6 +11,16 @@
     'dependencies',
     'renovate',
   ],
+  vulnerabilityAlerts: {
+    enabled: true,
+    labels: [
+      'dependencies',
+      'renovate',
+      'security',
+    ],
+    automerge: false,
+    vulnerabilityFixStrategy: 'lowest',
+  },
   lockFileMaintenance: {
     enabled: true,
     schedule: [
