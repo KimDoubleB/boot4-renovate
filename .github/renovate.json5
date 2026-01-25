@@ -7,6 +7,9 @@
     ':prHourlyLimit2',
   ],
   dependencyDashboardApproval: true,
+  dependencyDashboardLabels: [
+    "renovate-dashboard"
+  ],
   labels: [
     'dependencies',
     'renovate',
