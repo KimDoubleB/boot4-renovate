@@ -17,9 +17,9 @@
       'before 4am',
     ],
     automerge: false,
-    commitMessageAction: 'Update',
+    commitMessagePrefix: 'chore(deps): ',
+    commitMessageAction: 'update',
     commitMessageTopic: 'Gradle lockfile',
-    prTitle: 'chore(deps): update Gradle lockfile',
     prBodyNotes: [
       'This PR updates the Gradle lockfile to reflect the latest versions of transitive dependencies.',
       '',
