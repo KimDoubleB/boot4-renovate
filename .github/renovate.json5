@@ -11,16 +11,8 @@
     'dependencies',
     'renovate',
   ],
-  vulnerabilityAlerts: {
-    enabled: true,
-    labels: [
-      'dependencies',
-      'renovate',
-      'security',
-    ],
-    automerge: false,
-    vulnerabilityFixStrategy: 'lowest',
-  },
+  osvVulnerabilityAlerts: true,
+  dependencyDashboardOSVVulnerabilitySummary: 'all',
   lockFileMaintenance: {
     enabled: true,
     schedule: [
@@ -113,7 +105,7 @@
         'patch',
       ],
       dependencyDashboardApproval: false,
-      automerge: true,
+      automerge: false,
     },
     {
       matchUpdateTypes: [
