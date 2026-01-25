@@ -22,6 +22,21 @@ configurations {
     }
 }
 
+// Dependency Locking Configuration
+// 주요 Configuration에 대해 의존성 잠금 활성화
+configurations {
+    listOf(
+        "compileClasspath",
+        "runtimeClasspath",
+        "testCompileClasspath",
+        "testRuntimeClasspath"
+    ).forEach { configName ->
+        named(configName) {
+            resolutionStrategy.activateDependencyLocking()
+        }
+    }
+}
+
 repositories {
     mavenCentral()
 }

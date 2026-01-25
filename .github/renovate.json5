@@ -18,6 +18,23 @@
     "dependencies",
     "renovate"
   ],
+  // --- [Gradle Lockfile 자동 유지보수] ---
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 4am every day"],
+    "automerge": false,
+    "commitMessageAction": "Update",
+    "commitMessageTopic": "Gradle lockfile",
+    "prTitle": "chore(deps): update Gradle lockfile",
+    "prBodyNotes": [
+      "This PR updates the Gradle lockfile to reflect the latest versions of transitive dependencies.",
+      "",
+      "**Review Checklist:**",
+      "- [ ] CI passes",
+      "- [ ] No unexpected dependency changes",
+      "- [ ] No security vulnerabilities introduced"
+    ]
+  },
   // --- [Gradle Version Catalog] ---
   "gradle": {
     "managerFilePatterns": [
