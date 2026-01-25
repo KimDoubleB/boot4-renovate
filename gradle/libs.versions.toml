@@ -3,6 +3,7 @@ kotlin = "2.3.0"
 spring-boot = "4.0.2"
 spring-dependency-management = "1.1.7"
 cyclonedx = "3.0.1"
+cyclonedx-core-java = "11.0.0"  # vulnerable version for testing
 sentry = "8.27.0"
 resilience4j = "2.3.0"
 kotest = "6.0.7"
@@ -58,6 +59,9 @@ testcontainers-junit-jupiter = { group = "org.testcontainers", name = "testconta
 
 # Micrometer
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
+
+# CycloneDX (for vulnerability testing)
+cyclonedx-core-java = { module = "org.cyclonedx:cyclonedx-core-java", version.ref = "cyclonedx-core-java" }
 
 # JUnit
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }

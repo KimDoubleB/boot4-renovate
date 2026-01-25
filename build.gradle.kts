@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.sentry.spring.boot.starter)
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.resilience4j)
+    implementation(libs.cyclonedx.core.java)  // vulnerable version for testing
 
     developmentOnly(libs.spring.boot.docker.compose)
     runtimeOnly(libs.micrometer.registry.prometheus)
