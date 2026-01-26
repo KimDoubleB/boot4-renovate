@@ -45,7 +45,7 @@ resilience4j-micrometer = { module = "io.github.resilience4j:resilience4j-microm
 
 # test
 wiremock = { group = "org.wiremock", name = "wiremock-standalone", version = "3.13.2" }
-mockk = { group = "io.mockk", name = "mockk", version = "1.14.7" }
+mockk = { group = "io.mockk", name = "mockk", version = "1.14.9" }
 
 # kotest
 kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
