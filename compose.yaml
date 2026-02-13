@@ -1,12 +1,12 @@
 services:
   grafana-lgtm:
-    image: 'grafana/otel-lgtm:latest'
+    image: 'grafana/otel-lgtm:latest@sha256:bf7bfb9c216f240bd930b278049568e8f8500adcee808c076a556bc767544408'
     ports:
       - '3000:3000'
       - '4317'
       - '4318'
   mongodb:
-    image: 'mongo:latest'
+    image: 'mongo:latest@sha256:9e52bf8768ae4f59b9ca734845d15cee0e523ced14b900cc3692d241eec9154c'
     environment:
       - 'MONGO_INITDB_DATABASE=mydatabase'
       - 'MONGO_INITDB_ROOT_PASSWORD=secret'
